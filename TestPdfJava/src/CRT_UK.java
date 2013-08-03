@@ -19,6 +19,7 @@ import com.itextpdf.text.ListItem;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.ZapfDingbatsList;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfImportedPage;
@@ -49,15 +50,22 @@ public class CRT_UK {
 		document.open();
 
 		PdfContentByte cb = writer.getDirectContent();
+
+		// add footer
+		HeaderFooter event = new HeaderFooter();
+		writer.setBoxSize("art", new Rectangle(36, 54, 559, 788));
+		writer.setPageEvent(event);
+
+		// import page
 		PdfImportedPage page1 = writer.getImportedPage(reader, 1);
 		// Copy first page of existing PDF into output PDF
 		cb.addTemplate(page1, 0, 0);
 
 		new CRT_UK().createCRT_AUSTRALIA_Pdf(document);
 
-		document.newPage();
-		PdfImportedPage page3 = writer.getImportedPage(reader, 3);
-		cb.addTemplate(page3, 0, 0);
+		// document.newPage();
+		// PdfImportedPage page3 = writer.getImportedPage(reader, 3);
+		// cb.addTemplate(page3, 0, 0);
 
 		// reader.close();
 		document.close();
@@ -67,10 +75,10 @@ public class CRT_UK {
 			throws DocumentException, MalformedURLException, IOException {
 		Font fontBold12 = FontFactory.getFont("Arial", 12, Font.BOLD);
 		Font fontBold11 = FontFactory.getFont("Arial", 11, Font.BOLD);
-		Font font10Italic = FontFactory.getFont("Arial", 10, Font.ITALIC);
-		Font fontBold14 = FontFactory.getFont("Arial", 14, Font.BOLD);
+		Font fontBold10 = FontFactory.getFont("Arial", 10, Font.BOLD);
 		Font fontNormal11 = FontFactory.getFont("Arial", 11);
 		Font fontNormal10 = FontFactory.getFont("Arial", 10);
+		Font fontBold14 = FontFactory.getFont("Arial", 14, Font.BOLD);
 		int indentationLeft = 110;
 		String xxx = "xxxxxxx";
 
@@ -152,22 +160,161 @@ public class CRT_UK {
 		table.addCell(xxx);
 		table.addCell(new Phrase("QRS Width", fontNormal11));
 		table.addCell(xxx);
+		table.addCell(new Phrase("Mechanical Dyssynchrony at Echo",
+				fontNormal11));
+		table.addCell(xxx);
 		table.addCell(new Phrase("Optimal Medical Therapy", fontNormal11));
 		table.addCell(xxx);
-		table.addCell(new Phrase("Atrial Rhythm", fontNormal11));
+		table.addCell(new Phrase("Familial or congenital heart disease",
+				fontNormal11));
+		table.addCell(xxx);
+		table.addCell(new Phrase("Survival expectation more", fontNormal11));
 		table.addCell(xxx);
 		document.add(table);
 
 		// symbol
-		symbol.scalePercent(30, 30);
-		symbol.setAbsolutePosition(110, 550);
+		// symbol.scalePercent(30, 30);
+		// symbol.setAbsolutePosition(110, 550);
 		// document.add(symbol);
 
-		// Evaluated by ScreenLinkTool
-		line = new Paragraph("Evaluated by ScreenLinkTool", font10Italic);
-		// line.setIndentationLeft(110);
-		line.setAlignment(Element.ALIGN_CENTER);
-		line.setSpacingBefore(50);
+		document.newPage();
+		// logo header
+		imgHeader = Image.getInstance("header_pdf.jpg");
+		imgHeader.scalePercent(45, 45);
+		imgHeader.setAbsolutePosition(94, 780);
+		document.add(imgHeader);
+
+		// Guidelines results
+		line = new Paragraph("Guidelines results:", fontBold11);
+		line.setIndentationLeft(indentationLeft);
+		line.setSpacingBefore(80);
+		line.setSpacingAfter(10);
 		document.add(line);
+		// CRT Therapy
+		line = new Paragraph("CRT Therapy", fontBold14);
+		line.setIndentationLeft(110);
+		line.setSpacingBefore(10);
+		document.add(line);
+
+		// CRT Therapy Table
+		table = new PdfPTable(1);
+		table.setSpacingBefore(20);
+		table.setWidthPercentage(80);
+		table.setHorizontalAlignment(Element.ALIGN_RIGHT);
+		table.addCell(new Phrase("xxx", fontNormal11));
+		document.add(table);
+		// SOURCE OF REFERRAL
+		line = new Paragraph("SOURCE OF REFERRAL", fontBold14);
+		line.setIndentationLeft(indentationLeft);
+		line.setSpacingBefore(10);
+		document.add(line);
+
+		// please tick
+		line = new Paragraph("(please tick one)", fontNormal11);
+		line.setIndentationLeft(indentationLeft);
+		line.setSpacingBefore(10);
+		document.add(line);
+		// List 2
+		ZapfDingbatsList listItem2 = new ZapfDingbatsList(111, 30);
+		listItem2.setIndentationLeft(120);
+		listItem2.add(new ListItem("Patient self presenting with symptoms",
+				fontNormal11));
+		listItem2.add(new ListItem("Recent hospital admission", fontNormal11));
+		listItem2
+				.add(new ListItem(
+						"Routine 'NYHA score' in chronic disease clinic",
+						fontNormal11));
+		listItem2.add(new ListItem("Other (please specify) …………………………………….",
+				fontNormal11));
+		document.add(listItem2);
+
+		// BRIEF PRESENTING HISTORY:
+		line = new Paragraph("BRIEF PRESENTING HISTORY:", fontBold10);
+		line.setIndentationLeft(indentationLeft);
+		line.setSpacingBefore(30);
+		document.add(line);
+
+		// (SOBAR, SOBOE, orthopnea, PND etc):
+		line = new Paragraph("(SOBAR, SOBOE, orthopnea, PND etc)", fontNormal10);
+		line.setIndentationLeft(indentationLeft);
+		document.add(line);
+
+		// SELF ASSESSED NYHA SCORE CLASS:
+		line = new Paragraph(
+				"SELF ASSESSED NYHA SCORE CLASS:      □i     □ii     □iii",
+				fontBold10);
+		line.setIndentationLeft(indentationLeft);
+		line.setSpacingBefore(30);
+		document.add(line);
+
+		// CLINICAL FINDINGS:
+		line = new Paragraph("CLINICAL FINDINGS:", fontBold10);
+		line.setIndentationLeft(indentationLeft);
+		line.setSpacingBefore(30);
+		document.add(line);
+		// Peripheral /pulmonary oedema, murmur etc
+		line = new Paragraph("(Peripheral /pulmonary oedema, murmur etc)",
+				fontNormal10);
+		line.setIndentationLeft(indentationLeft);
+		document.add(line);
+		// BP:
+		line = new Paragraph("BP:", fontNormal10);
+		line.setSpacingBefore(15);
+		line.setIndentationLeft(indentationLeft);
+		document.add(line);
+		// .....
+		line = new Paragraph(
+				"................................................................................................................................",
+				fontNormal10);
+		line.setSpacingBefore(15);
+		line.setIndentationLeft(indentationLeft);
+		document.add(line);
+
+		document.newPage();
+		// logo header
+		imgHeader = Image.getInstance("header_pdf.jpg");
+		imgHeader.scalePercent(45, 45);
+		imgHeader.setAbsolutePosition(94, 780);
+		document.add(imgHeader);
+
+		// MEDICATION :
+		line = new Paragraph("MEDICATION :", fontBold10);
+		line.setIndentationLeft(indentationLeft);
+		line.setSpacingBefore(80);
+		document.add(line);
+		// (please tick if applicable)
+		line = new Paragraph("(please tick if applicable)", fontNormal10);
+		line.setIndentationLeft(indentationLeft);
+		line.setSpacingAfter(15);
+		document.add(line);
+
+		// List 2
+		listItem2 = new ZapfDingbatsList(111, 20);
+		listItem2.setIndentationLeft(110);
+		listItem2.add(new ListItem("PMH\n\n", fontNormal10));
+		listItem2
+				.add(new ListItem(
+						"IHD \nDate of prev MI (if app.) ........................................................................................\n\n",
+						fontNormal10));
+		listItem2
+				.add(new ListItem(
+						"HBP\nDate first diagnosed ..............................................................................................\n\n",
+						fontNormal10));
+		listItem2
+				.add(new ListItem(
+						"Atrial fibrillation\nDate last known SR .............................................................................................\n\n",
+						fontNormal10));
+		listItem2.add(new ListItem("Known COAD/ asthma\n\n", fontNormal10));
+		listItem2
+				.add(new ListItem(
+						"PFT? ....................................................................................................................\n\nDate ECG 1st reported broad QRS……………………………………………………\n\n",
+						fontNormal10));
+		listItem2.add(new ListItem("Date LV dysfunction confirmed\n\n",
+				fontNormal10));
+		listItem2.add(new ListItem("Hospital admission in last 12 month\n\n",
+				fontNormal10));
+		document.add(listItem2);
+
 	}
+
 }
