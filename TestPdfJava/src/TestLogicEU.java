@@ -4,9 +4,26 @@ import java.util.List;
 public class TestLogicEU {
 
 	public static void main(String[] args) {
-		List<String> listResult = TestLogicEU.EUCalculator("Non-Ischemic", "I",
-				true, 30, true, true, "Non-sustained VT", true, true, true,
-				false, 120, true, "Permanent AF", true, true);
+		String etiology = "Non-Ischemic";
+		String NYHAClass = "I";
+		boolean echoAvailable = true;
+		int lvef = 30;
+		boolean priorMI = true;
+		boolean firstMI = true;
+		String arrythmias = "Non-sustained VT";
+		boolean priorSudden = true;
+		boolean syncope = true;
+		boolean lifeExpectative = true;
+		boolean lbbb = false;
+		int qrs = 120;
+		boolean optimalMedical = true;
+		String atrialRythm = "Permanent AF";
+		boolean ventricularPacing = true;
+		boolean pacingExpected = true;
+		List<String> listResult = TestLogicEU.EUCalculator(etiology, NYHAClass,
+				echoAvailable, lvef, priorMI, firstMI, arrythmias, priorSudden,
+				syncope, lifeExpectative, lbbb, qrs, optimalMedical,
+				atrialRythm, ventricularPacing, pacingExpected);
 		for (String string : listResult) {
 			System.out.println(string);
 		}
