@@ -6,10 +6,10 @@ public class TestLogicEU {
 	public static void main(String[] args) {
 		String etiology = "Non-Ischemic";
 		String NYHAClass = "I";
-		boolean echoAvailable = true;
+		boolean echoAvailable = false;
 		int lvef = 30;
 		boolean priorMI = true;
-		boolean firstMI = true;
+		boolean firstMI40days = true;
 		String arrythmias = "Non-sustained VT";
 		boolean priorSudden = true;
 		boolean syncope = true;
@@ -21,18 +21,18 @@ public class TestLogicEU {
 		boolean ventricularPacing = true;
 		boolean pacingExpected = true;
 		List<String> listResult = TestLogicEU.EUCalculator(etiology, NYHAClass,
-				echoAvailable, lvef, priorMI, firstMI, arrythmias, priorSudden,
-				syncope, lifeExpectative, lbbb, qrs, optimalMedical,
-				atrialRythm, ventricularPacing, pacingExpected);
+				echoAvailable, lvef, priorMI, firstMI40days, arrythmias,
+				priorSudden, syncope, lifeExpectative, lbbb, qrs,
+				optimalMedical, atrialRythm, ventricularPacing, pacingExpected);
 		for (String string : listResult) {
 			System.out.println(string);
 		}
 	}
 
 	private static List<String> EUCalculator(String etiology, String NYHAClass,
-			boolean echoAvailable, int lvef, boolean priorMI, boolean firstMI,
-			String arrythmias, boolean priorSudden, boolean syncope,
-			boolean lifeExpectative, boolean lbbb, int qrs,
+			boolean echoAvailable, int lvef, boolean priorMI,
+			boolean firstMI40days, String arrythmias, boolean priorSudden,
+			boolean syncope, boolean lifeExpectative, boolean lbbb, int qrs,
 			boolean optimalMedical, String atrialRythm,
 			boolean ventricularPacing, boolean pacingExpected) {
 		List<String> listResult = new ArrayList<String>();
@@ -110,7 +110,7 @@ public class TestLogicEU {
 
 		// ICD 4
 		if ((NYHAClass.equals("II") || NYHAClass.equals("III")) && lvef <= 35
-				&& lifeExpectative && priorMI && firstMI
+				&& lifeExpectative && priorMI && firstMI40days
 				&& etiology.equals("Ischemic") && optimalMedical) {
 			listResult.add("ICD4");
 		}
@@ -122,7 +122,7 @@ public class TestLogicEU {
 		}
 		// ICD 6
 		if ((NYHAClass.equals("I")) && lvef <= 35 && optimalMedical
-				&& lifeExpectative && priorMI && firstMI) {
+				&& lifeExpectative && priorMI && firstMI40days) {
 			listResult.add("ICD6");
 		}
 		// ICD 7
