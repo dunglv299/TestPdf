@@ -1,3 +1,4 @@
+package com.dunglv.logic;
 public class ConstantLogic {
 	public static final String RHYTHM_SINUS = "Sinus";
 	public static final String RHYTHM_AF_AVN_ABLATION = "AF or AVN ablation";
