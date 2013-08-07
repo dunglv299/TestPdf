@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestLogicUS {
+public class LogicUS {
 
 	public static void main(String[] args) {
 		String etiology = "Caridac sarcoidosis, giant cell myocarditis, Chagas, or non-hospitalized patients awaiting heart transplantation";
@@ -22,7 +22,7 @@ public class TestLogicUS {
 		boolean firstMI40days = true;
 		boolean syncope = true;
 
-		List<String> listResult = TestLogicUS.USCalculator(etiology, NYHAClass,
+		List<String> listResult = LogicUS.USCalculator(etiology, NYHAClass,
 				lvef, priorMI, firstMI40days, VF, sustainedVT, nonSustainedVT,
 				priorSCAOrVF, syncope, lifeExpectative, qrs, qrsMorphology,
 				optimalMedical, atrialRythm, classIPacemarker);
@@ -119,9 +119,9 @@ public class TestLogicUS {
 			listResult.add("CRT7");
 		}
 		/************** ICD ********************/
-		// ICD1
+		// ICD2
 		if (priorSCAOrVF && sustainedVT) {
-			listResult.add("ICD1");
+			listResult.add("ICD2");
 		}
 		// ICD2
 		if (VF && sustainedVT) {

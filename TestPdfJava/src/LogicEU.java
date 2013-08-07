@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestLogicEU {
+public class LogicEU {
 
 	public static void main(String[] args) {
 		String etiology = "Non-Ischemic";
@@ -20,7 +20,7 @@ public class TestLogicEU {
 		String atrialRythm = "Permanent AF";
 		boolean ventricularPacing = true;
 		boolean pacingExpected = true;
-		List<String> listResult = TestLogicEU.EUCalculator(etiology, NYHAClass,
+		List<String> listResult = LogicEU.EUCalculator(etiology, NYHAClass,
 				echoAvailable, lvef, priorMI, firstMI40days, arrythmias,
 				priorSudden, syncope, lifeExpectative, lbbb, qrs,
 				optimalMedical, atrialRythm, ventricularPacing, pacingExpected);
