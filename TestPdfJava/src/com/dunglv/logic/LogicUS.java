@@ -1,4 +1,5 @@
 package com.dunglv.logic;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class LogicUS {
 		boolean optimalMedical = true;
 		String atrialRythm = "Sinus";
 		boolean classIPacemarker = true;
-
+		boolean echoAvailable = false;
 		boolean priorSCAOrVF = true;
 		boolean VF = true;
 		boolean sustainedVT = true;
@@ -23,29 +24,28 @@ public class LogicUS {
 		boolean firstMI40days = true;
 		boolean syncope = true;
 
-		List<String> listResult = LogicUS.USCalculator(etiology, NYHAClass,
-				lvef, priorMI, firstMI40days, VF, sustainedVT, nonSustainedVT,
-				priorSCAOrVF, syncope, lifeExpectative, qrs, qrsMorphology,
-				optimalMedical, atrialRythm, classIPacemarker);
+		List<String> listResult = LogicUS.USCalculator(echoAvailable, etiology,
+				NYHAClass, lvef, priorMI, firstMI40days, VF, sustainedVT,
+				nonSustainedVT, priorSCAOrVF, syncope, lifeExpectative, qrs,
+				qrsMorphology, optimalMedical, atrialRythm, classIPacemarker);
 		for (String string : listResult) {
 			System.out.println(string);
 		}
 	}
 
-	private static List<String> USCalculator(String etiology, String NYHAClass,
-			int lvef, boolean priorMI, boolean firstMI40days, boolean VF,
-			boolean sustainedVT, boolean nonSustainedVT, boolean priorSCAOrVF,
-			boolean syncope, boolean lifeExpectative, int qrs,
-			String qrsMorphology, boolean optimalMedical, String atrialRythm,
-			boolean classIPacemarker) {
+	private static List<String> USCalculator(boolean echoAvailable,
+			String etiology, String NYHAClass, int lvef, boolean priorMI,
+			boolean firstMI40days, boolean VF, boolean sustainedVT,
+			boolean nonSustainedVT, boolean priorSCAOrVF, boolean syncope,
+			boolean lifeExpectative, int qrs, String qrsMorphology,
+			boolean optimalMedical, String atrialRythm, boolean classIPacemarker) {
 		List<String> listResult = new ArrayList<String>();
 
 		/************** CRT ********************/
 		// CRT 1
-		if ((NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
-				.equals("IV"))
-				&& lvef <= 35
-				&& qrs >= 150
+		if (echoAvailable
+				&& (NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
+						.equals("IV")) && lvef <= 35 && qrs >= 150
 				&& qrsMorphology.equals(ConstantLogic.QRS_MORPHOLOGY_LBBB)
 				&& optimalMedical
 				&& atrialRythm.equals(ConstantLogic.RHYTHM_SINUS)
@@ -54,11 +54,9 @@ public class LogicUS {
 		}
 
 		// CRT 2A
-		if ((NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
-				.equals("IV"))
-				&& lvef <= 35
-				&& qrs >= 120
-				&& qrs < 150
+		if (echoAvailable
+				&& (NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
+						.equals("IV")) && lvef <= 35 && qrs >= 120 && qrs < 150
 				&& qrsMorphology.equals(ConstantLogic.QRS_MORPHOLOGY_LBBB)
 				&& optimalMedical
 				&& atrialRythm.equals(ConstantLogic.RHYTHM_SINUS)
@@ -67,10 +65,9 @@ public class LogicUS {
 		}
 
 		// CRT 3
-		if ((NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
-				.equals("IV"))
-				&& lvef <= 35
-				&& qrs >= 150
+		if (echoAvailable
+				&& (NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
+						.equals("IV")) && lvef <= 35 && qrs >= 150
 				&& qrsMorphology.equals(ConstantLogic.QRS_MORPHOLOGY_NON_LBBB)
 				&& optimalMedical
 				&& atrialRythm.equals(ConstantLogic.RHYTHM_SINUS)
@@ -79,14 +76,14 @@ public class LogicUS {
 		}
 
 		// CRT 2B
-		if (lvef <= 35 && optimalMedical
+		if (echoAvailable && lvef <= 35 && optimalMedical
 				&& atrialRythm.equals(ConstantLogic.RHYTHM_AF_AVN_ABLATION)
 				&& classIPacemarker) {
 			listResult.add("CRT2B");
 		}
 
 		// CRT 4
-		if (lvef <= 35
+		if (echoAvailable && lvef <= 35
 				&& qrsMorphology.equals(ConstantLogic.QRS_MORPHOLOGY_RV_PACED)
 				&& optimalMedical
 				&& atrialRythm.equals(ConstantLogic.RHYTHM_RV_PACED)
@@ -95,7 +92,7 @@ public class LogicUS {
 		}
 
 		// CRT 5
-		if (NYHAClass.equals("I") && lvef <= 30
+		if (echoAvailable && NYHAClass.equals("I") && lvef <= 30
 				&& etiology.equals(ConstantLogic.ETIOLOGY_ISCHEMIC)
 				&& qrs >= 150
 				&& qrsMorphology.equals(ConstantLogic.QRS_MORPHOLOGY_LBBB)
@@ -105,15 +102,17 @@ public class LogicUS {
 		}
 
 		// CRT 6
-		if ((NYHAClass.equals("III") || NYHAClass.equals("IV")) && lvef <= 35
-				&& qrs >= 120 && qrs < 150
+		if (echoAvailable
+				&& (NYHAClass.equals("III") || NYHAClass.equals("IV"))
+				&& lvef <= 35 && qrs >= 120 && qrs < 150
 				&& qrsMorphology.equals(ConstantLogic.QRS_MORPHOLOGY_NON_LBBB)
 				&& optimalMedical
 				&& atrialRythm.equals(ConstantLogic.RHYTHM_SINUS)) {
 			listResult.add("CRT6");
 		}
 		// CRT 7
-		if ((NYHAClass.equals("II")) && lvef <= 35 && qrs >= 150
+		if (echoAvailable && (NYHAClass.equals("II")) && lvef <= 35
+				&& qrs >= 150
 				&& qrsMorphology.equals(ConstantLogic.QRS_MORPHOLOGY_NON_LBBB)
 				&& optimalMedical
 				&& atrialRythm.equals(ConstantLogic.RHYTHM_SINUS)) {
@@ -129,28 +128,32 @@ public class LogicUS {
 			listResult.add("ICD2");
 		}
 		// ICD 2bis
-		if (lvef < 40 && VF && nonSustainedVT && lifeExpectative && priorMI) {
+		if (echoAvailable && lvef < 40 && VF && nonSustainedVT
+				&& lifeExpectative && priorMI) {
 			listResult.add("ICD2bis");
 		}
 
 		// ICD3
-		if ((NYHAClass.equals("II") || NYHAClass.equals("III")) && lvef <= 35
-				&& optimalMedical && lifeExpectative && priorMI
+		if (echoAvailable
+				&& (NYHAClass.equals("II") || NYHAClass.equals("III"))
+				&& lvef <= 35 && optimalMedical && lifeExpectative && priorMI
 				&& firstMI40days
 				&& etiology.equals(ConstantLogic.ETIOLOGY_ISCHEMIC)) {
 			listResult.add("ICD3");
 		}
 
 		// ICD4
-		if ((NYHAClass.equals("II") || NYHAClass.equals("III")) && lvef <= 35
-				&& optimalMedical && lifeExpectative && !priorMI
+		if (echoAvailable
+				&& (NYHAClass.equals("II") || NYHAClass.equals("III"))
+				&& lvef <= 35 && optimalMedical && lifeExpectative && !priorMI
 				&& etiology.equals(ConstantLogic.ETIOLOGY_NON_ISCHEMIC)) {
 			listResult.add("ICD4");
 		}
 
 		// ICD5
-		if (NYHAClass.equals("I") && lvef <= 30 && optimalMedical
-				&& lifeExpectative && priorMI && firstMI40days
+		if (echoAvailable && NYHAClass.equals("I") && lvef <= 30
+				&& optimalMedical && lifeExpectative && priorMI
+				&& firstMI40days
 				&& etiology.equals(ConstantLogic.ETIOLOGY_ISCHEMIC)) {
 			listResult.add("ICD5");
 		}

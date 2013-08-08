@@ -1,4 +1,5 @@
 package com.dunglv.logic;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,43 +38,48 @@ public class LogicEU {
 			boolean optimalMedical, String atrialRythm,
 			boolean ventricularPacing, boolean pacingExpected) {
 		List<String> listResult = new ArrayList<String>();
-
+		// Error 1
+		if (priorMI && etiology.equals("Non-Ischemic")) {
+			listResult.add("Error1");
+			return listResult;
+		} else {
+			listResult.add("No Probs");
+		}
+		// ECHO 1
+		if (!echoAvailable) {
+			listResult.add("ECHO1");
+			return listResult;
+		} else {
+			listResult.add("No Probs");
+		}
+		
 		// CRT 1
-		if ((NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
-				.equals("IV"))
-				&& lbbb
-				&& lvef <= 35
-				&& qrs >= 150
+		if (echoAvailable
+				&& (NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
+						.equals("IV")) && lbbb && lvef <= 35 && qrs >= 150
 				&& atrialRythm.equals("Sinus rythm") && optimalMedical) {
 			listResult.add("CRT1");
 		}
 		// CRT 2
-		if ((NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
-				.equals("IV"))
-				&& lbbb
-				&& lvef <= 35
-				&& qrs >= 120
-				&& qrs < 150
-				&& atrialRythm.equals("Sinus rythm") && optimalMedical) {
+		if (echoAvailable
+				&& (NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
+						.equals("IV")) && lbbb && lvef <= 35 && qrs >= 120
+				&& qrs < 150 && atrialRythm.equals("Sinus rythm")
+				&& optimalMedical) {
 			listResult.add("CRT2");
 		}
 		// CRT 3
-		if ((NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
-				.equals("IV"))
-				&& !lbbb
-				&& lvef <= 35
-				&& qrs >= 150
+		if (echoAvailable
+				&& (NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
+						.equals("IV")) && !lbbb && lvef <= 35 && qrs >= 150
 				&& atrialRythm.equals("Sinus rythm") && optimalMedical) {
 			listResult.add("CRT3");
 		}
 		// CRT 4
-		if ((NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
-				.equals("IV"))
-				&& !lbbb
-				&& lvef <= 35
-				&& qrs >= 120
-				&& qrs < 150
-				&& atrialRythm.equals("Sinus rythm")
+		if (echoAvailable
+				&& (NYHAClass.equals("II") || NYHAClass.equals("III") || NYHAClass
+						.equals("IV")) && !lbbb && lvef <= 35 && qrs >= 120
+				&& qrs < 150 && atrialRythm.equals("Sinus rythm")
 				&& optimalMedical) {
 			listResult.add("CRT4");
 		}
@@ -82,18 +88,20 @@ public class LogicEU {
 			listResult.add("CRT5");
 		}
 		// CRT 6
-		if ((NYHAClass.equals("III") || NYHAClass.equals("IV")) && lvef <= 35
-				&& qrs >= 120 && atrialRythm.equals("Permanent AF")
-				&& optimalMedical) {
+		if (echoAvailable
+				&& (NYHAClass.equals("III") || NYHAClass.equals("IV"))
+				&& lvef <= 35 && qrs >= 120
+				&& atrialRythm.equals("Permanent AF") && optimalMedical) {
 			listResult.add("CRT6");
 		}
 		// CRT 7
-		if ((NYHAClass.equals("III") || NYHAClass.equals("IV")) && lvef <= 35
-				&& optimalMedical && ventricularPacing) {
+		if (echoAvailable
+				&& (NYHAClass.equals("III") || NYHAClass.equals("IV"))
+				&& lvef <= 35 && optimalMedical && ventricularPacing) {
 			listResult.add("CRT7");
 		}
 		// CRT 8
-		if (lvef <= 50 && optimalMedical && pacingExpected) {
+		if (echoAvailable && lvef <= 50 && optimalMedical && pacingExpected) {
 			listResult.add("CRT8");
 		}
 		// ICD 1
@@ -110,25 +118,28 @@ public class LogicEU {
 		}
 
 		// ICD 4
-		if ((NYHAClass.equals("II") || NYHAClass.equals("III")) && lvef <= 35
-				&& lifeExpectative && priorMI && firstMI40days
+		if (echoAvailable
+				&& (NYHAClass.equals("II") || NYHAClass.equals("III"))
+				&& lvef <= 35 && lifeExpectative && priorMI && firstMI40days
 				&& etiology.equals("Ischemic") && optimalMedical) {
 			listResult.add("ICD4");
 		}
 		// ICD 5
-		if ((NYHAClass.equals("II") || NYHAClass.equals("III")) && lvef <= 35
-				&& optimalMedical && lifeExpectative
+		if (echoAvailable
+				&& (NYHAClass.equals("II") || NYHAClass.equals("III"))
+				&& lvef <= 35 && optimalMedical && lifeExpectative
 				&& etiology.equals("Non-Ischemic")) {
 			listResult.add("ICD5");
 		}
 		// ICD 6
-		if ((NYHAClass.equals("I")) && lvef <= 35 && optimalMedical
-				&& lifeExpectative && priorMI && firstMI40days) {
+		if (echoAvailable && (NYHAClass.equals("I")) && lvef <= 35
+				&& optimalMedical && lifeExpectative && priorMI
+				&& firstMI40days) {
 			listResult.add("ICD6");
 		}
 		// ICD 7
-		if ((NYHAClass.equals("I")) && lvef <= 35 && optimalMedical
-				&& lifeExpectative && !priorMI) {
+		if (echoAvailable && (NYHAClass.equals("I")) && lvef <= 35
+				&& optimalMedical && lifeExpectative && !priorMI) {
 			listResult.add("ICD7");
 		}
 		// ICD 8
@@ -138,27 +149,16 @@ public class LogicEU {
 			listResult.add("ICD8");
 		}
 		// ICD 9
-		if (lvef <= 35 && optimalMedical && lifeExpectative && !priorMI
-				&& etiology.equals("Non-Ischemic") && syncope) {
+		if (echoAvailable && lvef <= 35 && optimalMedical && lifeExpectative
+				&& !priorMI && etiology.equals("Non-Ischemic") && syncope) {
 			listResult.add("ICD9");
 		}
 		// ICD 10
-		if (lvef <= 40 && arrythmias.equals("Non-sustained VT") && priorMI) {
+		if (echoAvailable && lvef <= 40
+				&& arrythmias.equals("Non-sustained VT") && priorMI) {
 			listResult.add("ICD10");
 		}
 
-		// Error 1
-		if (priorMI && etiology.equals("Non-Ischemic")) {
-			listResult.add("Error1");
-		} else {
-			listResult.add("No Probs");
-		}
-		// ECHO 1
-		if (!echoAvailable) {
-			listResult.add("ECHO1");
-		} else {
-			listResult.add("No Probs");
-		}
 		return listResult;
 	}
 }
