@@ -189,7 +189,7 @@ public class LogicUS {
 			listResult.add("ICD11");
 		}
 		// ICD12
-		if (optimalMedical && lifeExpectative
+		if (optimalMedical && sustainedVT && lifeExpectative
 				&& etiology.equals(ConstantLogic.ETIOLOGY_CARIDAC)) {
 			listResult.add("ICD12");
 		}

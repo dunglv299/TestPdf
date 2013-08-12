@@ -7,7 +7,7 @@ public class LogicUK {
 
 	public static void main(String[] args) {
 		String NYHAClass = "III";
-		boolean echoAvailable = true;
+		boolean echoAvailable = false;
 		int lvef = 29;
 		int qrsWidth = 140;
 		boolean mechanicalDyssynchrony = true;
@@ -22,12 +22,13 @@ public class LogicUK {
 		boolean firstMIEvent = true;
 		boolean syncope = true;
 		boolean familial = true;
+		boolean hf = true;
 
 		List<String> listResult = LogicUK.UKCalculator(NYHAClass,
 				echoAvailable, lvef, qrsWidth, mechanicalDyssynchrony,
 				optimalMedical, priorSCAorVF, vf, sustainedVT, nonSustainedVT,
 				inducibleVTonEPTest, expectationOfSurvival, priorMI,
-				firstMIEvent, syncope, familial);
+				firstMIEvent, syncope, familial, hf);
 		for (String string : listResult) {
 			System.out.println(string);
 		}
@@ -39,7 +40,7 @@ public class LogicUK {
 			boolean priorSCAorVF, boolean vf, boolean sustainedVT,
 			boolean nonSustainedVT, boolean inducibleVTonEPTest,
 			boolean expectationOfSurvival, boolean priorMI,
-			boolean firstMIEvent, boolean syncope, boolean familial) {
+			boolean firstMIEvent, boolean syncope, boolean familial, boolean hf) {
 		List<String> listResult = new ArrayList<String>();
 
 		/************************* CRT Indication *************************/
@@ -100,7 +101,9 @@ public class LogicUK {
 			listResult.add("ICD5");
 		}
 		/************************* ECHO *************************/
-		// //////////////////////////lam tiep
+		if (hf && !echoAvailable) {
+			listResult.add("ECHO6");
+		}
 		return listResult;
 	}
 }

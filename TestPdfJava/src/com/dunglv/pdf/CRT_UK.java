@@ -1,4 +1,5 @@
 package com.dunglv.pdf;
+
 /*
  * This class is part of the book "iText in Action - 2nd Edition"
  * written by Bruno Lowagie (ISBN: 9781935182610)
@@ -14,6 +15,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.ListItem;
@@ -22,6 +24,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.ZapfDingbatsList;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -62,7 +65,7 @@ public class CRT_UK {
 		// Copy first page of existing PDF into output PDF
 		cb.addTemplate(page1, 0, 0);
 
-		new CRT_UK().createCRT_AUSTRALIA_Pdf(document);
+		new CRT_UK().createCRT_UK_Pdf(document);
 
 		// document.newPage();
 		// PdfImportedPage page3 = writer.getImportedPage(reader, 3);
@@ -72,14 +75,13 @@ public class CRT_UK {
 		document.close();
 	}
 
-	public void createCRT_AUSTRALIA_Pdf(Document document)
-			throws DocumentException, MalformedURLException, IOException {
+	public void createCRT_UK_Pdf(Document document) throws DocumentException,
+			MalformedURLException, IOException {
 		Font fontBold12 = FontFactory.getFont("Arial", 12, Font.BOLD);
-		Font fontBold11 = FontFactory.getFont("Arial", 11, Font.BOLD);
 		Font fontBold10 = FontFactory.getFont("Arial", 10, Font.BOLD);
-		Font fontNormal11 = FontFactory.getFont("Arial", 11);
+		Font fontBold9 = FontFactory.getFont("Arial", 9, Font.BOLD);
 		Font fontNormal10 = FontFactory.getFont("Arial", 10);
-		Font fontBold14 = FontFactory.getFont("Arial", 14, Font.BOLD);
+		Font fontBold13 = FontFactory.getFont("Arial", 13, Font.BOLD);
 		int indentationLeft = 110;
 		String xxx = "xxxxxxx";
 
@@ -92,7 +94,7 @@ public class CRT_UK {
 		// CRT(-P or -D
 		Paragraph line = new Paragraph(
 				"CRT is recommended according to NICE technical appraisal guidance 120 (CRT-D if ICD criteria are fulfilled too) because of the following reasons:",
-				fontBold11);
+				fontBold10);
 		line.setIndentationLeft(indentationLeft);
 		line.setSpacingBefore(80);
 		line.setSpacingAfter(10);
@@ -101,11 +103,16 @@ public class CRT_UK {
 		// list bullet
 		ZapfDingbatsList listItem1 = new ZapfDingbatsList(51, 30);
 		listItem1.setIndentationLeft(120);
-		listItem1.add(new ListItem(xxx, fontNormal11));
-		listItem1.add(new ListItem(xxx, fontNormal11));
-		listItem1.add(new ListItem(xxx, fontNormal11));
-		listItem1.add(new ListItem(xxx, fontNormal11));
-		listItem1.add(new ListItem(xxx, fontNormal11));
+		listItem1.add(new ListItem("NYHA Class III or IV", fontNormal10));
+		listItem1.add(new ListItem("ECHO is available and LVEF <= 35%",
+				fontNormal10));
+		listItem1.add(new ListItem("Optimal Medical Therapy = YES",
+				fontNormal10));
+		listItem1
+				.add(new ListItem(
+						"QRS width >=120ms and <150ms and MechancalDyssynchrony at Echo = YES",
+						fontNormal10));
+		listItem1.add(new ListItem("QRS width >= 150ms", fontNormal10));
 		document.add(listItem1);
 		// for (int i = 33; i < 200; i++) {
 		// ZapfDingbatsList listItem1 = new ZapfDingbatsList(i, 30);
@@ -124,7 +131,9 @@ public class CRT_UK {
 		table.setWidthPercentage(80);
 		table.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
-		Phrase p = new Phrase(xxx, fontNormal10);
+		Phrase p = new Phrase(
+				"Cardiac  Resynchronisation  Therapy  with  a  pacing  device  (CRT-P)  is  recommended  as  a treatment  option  for  people  with  heart  failure  who  fulfill  all  the  following  criteria:  They  are currenty experiencing or have recently experienced NYHA class III and IV symptoms; They are in sinus rhythm, either with a QRS duration of 150ms or longer estimated by standard ECG or with a QRS duration of 120-149ms estimated by ECG and mechanical dyssynchrony that is confirmed by echocardiography; They have a left ventricular ejection fraction of 35% or  less;  They  are  receiving  optimal pharmacological  therapy.  Cardiac  resynchronisation therapy  with  a  defibrillator  device  (CRT-D)  may  be  considered  for  people  who  fulfill  the criteria for implantation of a CRT-P device and who also separately fulfill the criteria for the use of an ICD device as recommended in NICE technology appraisal guidance 95.\n\n",
+				fontNormal10);
 		PdfPCell cell = new PdfPCell(p);
 		cell.setLeading(13f, 0f);
 		table.addCell(cell);
@@ -142,34 +151,34 @@ public class CRT_UK {
 		table.setHorizontalAlignment(Element.ALIGN_CENTER);
 		table.setWidths(new int[] { 25, 10 });
 		table.setWidthPercentage(60); // Code 2
-		table.addCell(new Phrase("NYHA Class", fontNormal11));
+		table.addCell(new Phrase("NYHA Class", fontNormal10));
 		table.addCell(xxx);
-		table.addCell(new Phrase("Echo Available", fontNormal11));
+		table.addCell(new Phrase("Echo Available", fontNormal10));
 		table.addCell(xxx);
-		table.addCell(new Phrase("LVEF % Last Echo", fontNormal11));
+		table.addCell(new Phrase("LVEF % Last Echo", fontNormal10));
 		table.addCell(xxx);
-		table.addCell(new Phrase("Prior MI", fontNormal11));
+		table.addCell(new Phrase("Prior MI", fontNormal10));
 		table.addCell(xxx);
-		table.addCell(new Phrase("      4 weeks", fontNormal11));
+		table.addCell(new Phrase("      4 weeks", fontNormal10));
 		table.addCell(xxx);
-		table.addCell(new Phrase("Arrhythmias History", fontNormal11));
+		table.addCell(new Phrase("Arrhythmias History", fontNormal10));
 		table.addCell(xxx);
 		table.addCell(new Phrase("Prior Sudden Cardiac Arrest or VF",
-				fontNormal11));
+				fontNormal10));
 		table.addCell(xxx);
-		table.addCell(new Phrase("Syncope", fontNormal11));
+		table.addCell(new Phrase("Syncope", fontNormal10));
 		table.addCell(xxx);
-		table.addCell(new Phrase("QRS Width", fontNormal11));
+		table.addCell(new Phrase("QRS Width", fontNormal10));
 		table.addCell(xxx);
 		table.addCell(new Phrase("Mechanical Dyssynchrony at Echo",
-				fontNormal11));
+				fontNormal10));
 		table.addCell(xxx);
-		table.addCell(new Phrase("Optimal Medical Therapy", fontNormal11));
+		table.addCell(new Phrase("Optimal Medical Therapy", fontNormal10));
 		table.addCell(xxx);
 		table.addCell(new Phrase("Familial or congenital heart disease",
-				fontNormal11));
+				fontNormal10));
 		table.addCell(xxx);
-		table.addCell(new Phrase("Survival expectation more", fontNormal11));
+		table.addCell(new Phrase("Survival expectation more", fontNormal10));
 		table.addCell(xxx);
 		document.add(table);
 
@@ -186,13 +195,12 @@ public class CRT_UK {
 		document.add(imgHeader);
 
 		// Guidelines results
-		line = new Paragraph("Guidelines results:", fontBold11);
+		line = new Paragraph("Guidelines results:", fontBold12);
 		line.setIndentationLeft(indentationLeft);
-		line.setSpacingBefore(80);
-		line.setSpacingAfter(10);
+		line.setSpacingBefore(90);
 		document.add(line);
 		// CRT Therapy
-		line = new Paragraph("CRT Therapy", fontBold14);
+		line = new Paragraph("CRT Therapy", fontBold13);
 		line.setIndentationLeft(110);
 		line.setSpacingBefore(10);
 		document.add(line);
@@ -202,16 +210,16 @@ public class CRT_UK {
 		table.setSpacingBefore(20);
 		table.setWidthPercentage(80);
 		table.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		table.addCell(new Phrase("xxx", fontNormal11));
+		table.addCell(new Phrase("xxx", fontNormal10));
 		document.add(table);
 		// SOURCE OF REFERRAL
-		line = new Paragraph("SOURCE OF REFERRAL", fontBold14);
+		line = new Paragraph("SOURCE OF REFERRAL", fontBold13);
 		line.setIndentationLeft(indentationLeft);
 		line.setSpacingBefore(10);
 		document.add(line);
 
 		// please tick
-		line = new Paragraph("(please tick one)", fontNormal11);
+		line = new Paragraph("(please tick one)", fontNormal10);
 		line.setIndentationLeft(indentationLeft);
 		line.setSpacingBefore(10);
 		document.add(line);
@@ -219,18 +227,18 @@ public class CRT_UK {
 		ZapfDingbatsList listItem2 = new ZapfDingbatsList(111, 30);
 		listItem2.setIndentationLeft(120);
 		listItem2.add(new ListItem("Patient self presenting with symptoms",
-				fontNormal11));
-		listItem2.add(new ListItem("Recent hospital admission", fontNormal11));
+				fontNormal10));
+		listItem2.add(new ListItem("Recent hospital admission", fontNormal10));
 		listItem2
 				.add(new ListItem(
 						"Routine 'NYHA score' in chronic disease clinic",
-						fontNormal11));
+						fontNormal10));
 		listItem2.add(new ListItem("Other (please specify) …………………………………….",
-				fontNormal11));
+				fontNormal10));
 		document.add(listItem2);
 
 		// BRIEF PRESENTING HISTORY:
-		line = new Paragraph("BRIEF PRESENTING HISTORY:", fontBold10);
+		line = new Paragraph("BRIEF PRESENTING HISTORY:", fontBold9);
 		line.setIndentationLeft(indentationLeft);
 		line.setSpacingBefore(30);
 		document.add(line);
@@ -241,15 +249,16 @@ public class CRT_UK {
 		document.add(line);
 
 		// SELF ASSESSED NYHA SCORE CLASS:
+
 		line = new Paragraph(
-				"SELF ASSESSED NYHA SCORE CLASS:      □i     □ii     □iii",
-				fontBold10);
+				"SELF ASSESSED NYHA SCORE CLASS:        □i        □ii        □iii",
+				fontBold9);
 		line.setIndentationLeft(indentationLeft);
 		line.setSpacingBefore(30);
 		document.add(line);
 
 		// CLINICAL FINDINGS:
-		line = new Paragraph("CLINICAL FINDINGS:", fontBold10);
+		line = new Paragraph("CLINICAL FINDINGS:", fontBold9);
 		line.setIndentationLeft(indentationLeft);
 		line.setSpacingBefore(30);
 		document.add(line);
@@ -279,7 +288,7 @@ public class CRT_UK {
 		document.add(imgHeader);
 
 		// MEDICATION :
-		line = new Paragraph("MEDICATION :", fontBold10);
+		line = new Paragraph("MEDICATION :", fontBold9);
 		line.setIndentationLeft(indentationLeft);
 		line.setSpacingBefore(80);
 		document.add(line);
@@ -317,5 +326,4 @@ public class CRT_UK {
 		document.add(listItem2);
 
 	}
-
 }

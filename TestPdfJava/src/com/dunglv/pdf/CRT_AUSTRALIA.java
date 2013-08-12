@@ -1,4 +1,5 @@
 package com.dunglv.pdf;
+
 /*
  * This class is part of the book "iText in Action - 2nd Edition"
  * written by Bruno Lowagie (ISBN: 9781935182610)
@@ -19,6 +20,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -47,6 +49,12 @@ public class CRT_AUSTRALIA {
 		document.open();
 
 		PdfContentByte cb = writer.getDirectContent();
+		// add footer
+		HeaderFooter event = new HeaderFooter();
+		writer.setBoxSize("art", new Rectangle(36, 54, 559, 788));
+		writer.setPageEvent(event);
+
+		// import page
 		PdfImportedPage page1 = writer.getImportedPage(reader, 1);
 		// Copy first page of existing PDF into output PDF
 		cb.addTemplate(page1, 0, 0);
@@ -65,8 +73,8 @@ public class CRT_AUSTRALIA {
 			throws DocumentException, MalformedURLException, IOException {
 		Font fontBold12 = FontFactory.getFont("Arial", 12, Font.BOLD);
 		Font font10Italic = FontFactory.getFont("Arial", 10, Font.ITALIC);
-		Font fontBold14 = FontFactory.getFont("Arial", 14, Font.BOLD);
-		Font fontNormal = FontFactory.getFont("Arial", 11);
+		Font fontBold13 = FontFactory.getFont("Arial", 13, Font.BOLD);
+		Font fontNormal9 = FontFactory.getFont("Arial", 9);
 
 		document.newPage();
 		// logo header
@@ -93,32 +101,32 @@ public class CRT_AUSTRALIA {
 		table.setSpacingBefore(20);
 		table.setWidths(new int[] { 6, 1 });
 		table.setWidthPercentage(60); // Code 2
-		table.addCell(new Phrase("NYHA Class", fontNormal));
+		table.addCell(new Phrase("NYHA Class", fontNormal9));
 		table.addCell("xxx");
-		table.addCell(new Phrase("Echo Available", fontNormal));
+		table.addCell(new Phrase("Echo Available", fontNormal9));
 		table.addCell("xxx");
-		table.addCell(new Phrase("LVEF % Last Echo", fontNormal));
+		table.addCell(new Phrase("LVEF % Last Echo", fontNormal9));
 		table.addCell("xxx");
-		table.addCell(new Phrase("Prior MI", fontNormal));
+		table.addCell(new Phrase("Prior MI", fontNormal9));
 		table.addCell("xxx");
 		table.addCell(new Phrase("Prior Sudden Cardiac Arrest or VF",
-				fontNormal));
+				fontNormal9));
 		table.addCell("xxx");
-		table.addCell(new Phrase("QRS Width", fontNormal));
+		table.addCell(new Phrase("QRS Width", fontNormal9));
 		table.addCell("xxx");
-		table.addCell(new Phrase("Optimal Medical Therapy", fontNormal));
+		table.addCell(new Phrase("Optimal Medical Therapy", fontNormal9));
 		table.addCell("xxx");
-		table.addCell(new Phrase("Sinus Rhythm", fontNormal));
+		table.addCell(new Phrase("Sinus Rhythm", fontNormal9));
 		table.addCell("xxx");
 		table.addCell(new Phrase(
 				"Spontaneous sustained VT in association with structural CHD",
-				fontNormal));
+				fontNormal9));
 		table.addCell("xxx");
 		document.add(table);
 
 		// symbol
 		symbol.scalePercent(30, 30);
-		symbol.setAbsolutePosition(110, 550);
+		symbol.setAbsolutePosition(110, 560);
 		document.add(symbol);
 
 		// Guidelines results
@@ -128,7 +136,7 @@ public class CRT_AUSTRALIA {
 		document.add(line);
 
 		// CRT Therapy
-		line = new Paragraph("CRT Therapy", fontBold14);
+		line = new Paragraph("CRT Therapy", fontBold13);
 		line.setIndentationLeft(110);
 		line.setSpacingBefore(10);
 		document.add(line);
@@ -140,11 +148,11 @@ public class CRT_AUSTRALIA {
 		table.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		table.addCell(new Phrase(
 				"CRT (with or without ICD) is recommended according to NHF/CSANZ Guidelines for the prevention, detection and management of chronic heart failure in Australia, updated October 2011 (Grade of recommendation A):\n\nBiventricular pacing (cardiac resynchronisation therapy, with or without ICD) should be considered in patients with CHF who fulfill each of the following criteria:\n\n     -NYHA symptoms Class III/IV on treatmen\n\n     -Dilated heart failure with LVEF <= 35%\n\n     -QRS duration >= 120 ms\n\n     -Sinus rhythm\n\n",
-				fontNormal));
+				fontNormal9));
 		document.add(table);
 
 		// ICD Therapy
-		line = new Paragraph("ICD Therapy", fontBold14);
+		line = new Paragraph("ICD Therapy", fontBold13);
 		line.setIndentationLeft(110);
 		line.setSpacingBefore(10);
 		document.add(line);
@@ -156,14 +164,7 @@ public class CRT_AUSTRALIA {
 		table.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		table.addCell(new Phrase(
 				"ICD is recommended according to NHF/CSANZ Guidelines for the prevention, detection and management of chronic heart failure in Australia, updated October 2011 (Grade of recommendation A):\n\nICD implantation should be considered in patients with CHF who fulfill any of the following criteria:\n\n       -Survived cardiac arrest resulting from ventricular fibrillation or ventricular tachycardia not due to a transient or reversible cause\n\n       -Spontaneous sustained ventricular tachycardia in association with structural CHD\n\n       -LVEF <= 30% measured at least 1 month after acute MI, or 3 months after coronary artery revascularisation surgery\n\n       -Symptomatic CHF (i.e. NYHA functional class II/III) and LVEF <= 35%\n\n",
-				fontNormal));
+				fontNormal9));
 		document.add(table);
-
-		// Evaluated by ScreenLinkTool
-		line = new Paragraph("Evaluated by ScreenLinkTool", font10Italic);
-		// line.setIndentationLeft(110);
-		line.setAlignment(Element.ALIGN_CENTER);
-		line.setSpacingBefore(10);
-		document.add(line);
 	}
 }
