@@ -2,19 +2,20 @@ package com.dunglv.logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 public class LogicUK {
 
 	public static void main(String[] args) {
-		String NYHAClass = "III";
-		boolean echoAvailable = false;
-		int lvef = 29;
-		int qrsWidth = 140;
+		String nyhaClass = "III";
+		boolean echoAvailable = true;
+		int lvef = 35;
+		int qrsWidth = 160;
 		boolean mechanicalDyssynchrony = true;
 		boolean optimalMedical = true;
-		boolean priorSCAorVF = false;
-		boolean vf = false;
-		boolean sustainedVT = true;
+		boolean priorSCAorVF = true;
+		boolean vf = true;
+		boolean sustainedVT = false;
 		boolean nonSustainedVT = true;
 		boolean inducibleVTonEPTest = true;
 		boolean expectationOfSurvival = true;
@@ -22,36 +23,35 @@ public class LogicUK {
 		boolean firstMIEvent = true;
 		boolean syncope = true;
 		boolean familial = true;
-		boolean hf = true;
 
-		List<String> listResult = LogicUK.UKCalculator(NYHAClass,
+		List<String> listResult = LogicUK.UKCalculator(nyhaClass,
 				echoAvailable, lvef, qrsWidth, mechanicalDyssynchrony,
 				optimalMedical, priorSCAorVF, vf, sustainedVT, nonSustainedVT,
 				inducibleVTonEPTest, expectationOfSurvival, priorMI,
-				firstMIEvent, syncope, familial, hf);
+				firstMIEvent, syncope, familial);
 		for (String string : listResult) {
 			System.out.println(string);
 		}
 	}
 
-	private static List<String> UKCalculator(String NYHAClass,
+	private static List<String> UKCalculator(String nyhaClass,
 			boolean echoAvailable, int lvef, int qrsWidth,
 			boolean mechanicalDyssynchrony, boolean optimalMedical,
 			boolean priorSCAorVF, boolean vf, boolean sustainedVT,
 			boolean nonSustainedVT, boolean inducibleVTonEPTest,
 			boolean expectationOfSurvival, boolean priorMI,
-			boolean firstMIEvent, boolean syncope, boolean familial, boolean hf) {
+			boolean firstMIEvent, boolean syncope, boolean familial) {
 		List<String> listResult = new ArrayList<String>();
 
 		/************************* CRT Indication *************************/
 		// CRT1
 		if (echoAvailable
-				&& (NYHAClass.equals("III") || NYHAClass.equals("IV"))
+				&& (nyhaClass.equals("III") || nyhaClass.equals("IV"))
 				&& lvef <= 35 && qrsWidth >= 150 && optimalMedical) {
 			listResult.add("CRT1");
 		}
 		if (echoAvailable
-				&& (NYHAClass.equals("III") || NYHAClass.equals("IV"))
+				&& (nyhaClass.equals("III") || nyhaClass.equals("IV"))
 				&& lvef <= 35 && qrsWidth >= 120 && qrsWidth < 150
 				&& mechanicalDyssynchrony && optimalMedical) {
 			listResult.add("CRT1");
@@ -67,13 +67,13 @@ public class LogicUK {
 		}
 		// ICD 2.3
 		if (echoAvailable
-				&& (NYHAClass.equals("I") || NYHAClass.equals("II") || NYHAClass
+				&& (nyhaClass.equals("I") || nyhaClass.equals("II") || nyhaClass
 						.equals("III")) && lvef <= 35 && !priorSCAorVF && !vf
 				&& sustainedVT) {
 			listResult.add("ICD2");
 		}
 		// ICD 2 bis
-		if ((NYHAClass.equals("I") || NYHAClass.equals("II") || NYHAClass
+		if ((nyhaClass.equals("I") || nyhaClass.equals("II") || nyhaClass
 				.equals("III"))
 				&& !priorSCAorVF
 				&& !vf
@@ -84,14 +84,14 @@ public class LogicUK {
 
 		// ICD 3
 		if (echoAvailable
-				&& (NYHAClass.equals("I") || NYHAClass.equals("II") || NYHAClass
+				&& (nyhaClass.equals("I") || nyhaClass.equals("II") || nyhaClass
 						.equals("III")) && lvef <= 35 && nonSustainedVT
 				&& inducibleVTonEPTest && priorMI && firstMIEvent) {
 			listResult.add("ICD3");
 		}
 		// ICD 4
 		if (echoAvailable
-				&& (NYHAClass.equals("I") || NYHAClass.equals("II") || NYHAClass
+				&& (nyhaClass.equals("I") || nyhaClass.equals("II") || nyhaClass
 						.equals("III")) && lvef <= 30 && priorMI
 				&& firstMIEvent && qrsWidth >= 120) {
 			listResult.add("ICD4");
@@ -101,9 +101,12 @@ public class LogicUK {
 			listResult.add("ICD5");
 		}
 		/************************* ECHO *************************/
-		if (hf && !echoAvailable) {
+		if (!echoAvailable) {
 			listResult.add("ECHO6");
 		}
-		return listResult;
+		List<String> newList = new ArrayList<String>(new TreeSet<String>(
+				listResult));
+		System.out.println("Unique values using List " + newList);
+		return newList;
 	}
 }
