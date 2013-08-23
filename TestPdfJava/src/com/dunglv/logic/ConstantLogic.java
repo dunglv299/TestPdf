@@ -1,4 +1,5 @@
 package com.dunglv.logic;
+
 public class ConstantLogic {
 	public static final String RHYTHM_SINUS = "Sinus";
 	public static final String RHYTHM_AF_AVN_ABLATION = "AF or AVN ablation";
@@ -15,5 +16,8 @@ public class ConstantLogic {
 	public static final String ETIOLOGY_NON_ISCHEMIC_DCM = "Non-ischemic DCM";
 	public static final String ETIOLOGY_ARVD = "ARVD/C or HCM";
 	public static final String ETIOLOGY_BRUGADA = "Brugada";
-	public static final String ETIOLOGY_CARIDAC = "Caridac sarcoidosis, giant cell myocarditis, Chagas, or non-hospitalized patients awaiting heart transplantation";
+	public static final String ETIOLOGY_CARIDAC = "Caridac Sarcoidosis";
+	public static final String ETIOLOGY_GIANT = "Giant Cell Myocarditis";
+	public static final String ETIOLOGY_CHAGAS = "Chagas";
+	public static final String ETIOLOGY_NON_HOSPITALIZED = "Non-Hospitalized Awaiting Transplantation";
 }

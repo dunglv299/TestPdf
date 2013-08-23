@@ -2,11 +2,12 @@ package com.dunglv.logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 public class LogicUS {
 
 	public static void main(String[] args) {
-		String etiology = "Caridac sarcoidosis, giant cell myocarditis, Chagas, or non-hospitalized patients awaiting heart transplantation";
+		String etiology = "Non-Hospitalized Awaiting Transplantation";
 		String NYHAClass = "I";
 		int lvef = 30;
 		int qrs = 150;
@@ -189,10 +190,15 @@ public class LogicUS {
 			listResult.add("ICD11");
 		}
 		// ICD12
-		if (optimalMedical && sustainedVT && lifeExpectative
-				&& etiology.equals(ConstantLogic.ETIOLOGY_CARIDAC)) {
+		if ((optimalMedical && lifeExpectative)
+				&& (etiology.equals(ConstantLogic.ETIOLOGY_CARIDAC)
+						|| etiology.equals(ConstantLogic.ETIOLOGY_GIANT)
+						|| etiology.equals(ConstantLogic.ETIOLOGY_CHAGAS) || etiology
+							.equals(ConstantLogic.ETIOLOGY_NON_HOSPITALIZED))) {
 			listResult.add("ICD12");
 		}
-		return listResult;
+		List<String> newList = new ArrayList<String>(new TreeSet<String>(
+				listResult));
+		return newList;
 	}
 }

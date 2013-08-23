@@ -13,7 +13,6 @@ import android.widget.Button;
 
 public class MainActivity extends Activity implements OnClickListener {
 	private Button btnEmail;
-	String outputPath;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,10 +35,10 @@ public class MainActivity extends Activity implements OnClickListener {
 				folder.mkdir();
 			} catch (Exception ex) {
 			}
-			outputPath = Environment.getExternalStorageDirectory()
+			String outputPath = Environment.getExternalStorageDirectory()
 					.getAbsolutePath() + "/ScreenLink/output.pdf";
-			new CRT_AUSTRALIA_Pdf(this, outputPath);
-
+			// new CRT_AUSTRALIA_Pdf(this, outputPath);
+			new UKPDF(this, outputPath);
 			File f = new File(outputPath);
 
 			String subject = "Subject";
